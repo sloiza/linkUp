@@ -27,7 +27,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main"
+        android:id="@+id/include" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -38,5 +39,25 @@
         android:tint="@android:color/background_dark"
         app:backgroundTint="@android:color/holo_blue_light"
         app:srcCompat="@android:drawable/ic_popup_sync" />
+
+    <TextView
+        android:id="@+id/textTemperature"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:paddingTop="150dp"
+        android:text="25ºC"
+        android:textColor="@android:color/white"
+        android:textSize="100sp" />
+
+    <TextView
+        android:id="@+id/textPresion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:paddingTop="300dp"
+        android:text="1030 Hpa"
+        android:textColor="@android:color/white"
+        android:textSize="70sp" />
 
 </android.support.design.widget.CoordinatorLayout>

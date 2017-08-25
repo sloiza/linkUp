@@ -8,29 +8,4 @@
     tools:context="com.example.nicomoccagatta.weatherapp.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:id="@+id/labelTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="25ºC"
-        android:textColor="@android:color/white"
-        android:textSize="100sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.152" />
-
-    <TextView
-        android:id="@+id/labelPresion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1030 Hpa"
-        android:textColor="@android:color/white"
-        android:textSize="70sp"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="178dp"
-        tools:ignore="MissingConstraints" />
-
 </android.support.constraint.ConstraintLayout>
