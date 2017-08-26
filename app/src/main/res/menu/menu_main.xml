@@ -5,16 +5,6 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Ciudad 1"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_settings2"
-        android:orderInCategory="100"
-        android:title="Ciudad 2"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_settingsN"
-        android:orderInCategory="100"
-        android:title="Ciudad N"
+        android:title="@string/cities"
         app:showAsAction="never" />
 </menu>

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Buenos Aires, AR");
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id .fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Weather> call, Throwable t) {
-                Log.e("WATHER_SERVICE", "It wasn't possible to retrieve the weather information", t);
+                Log.e("WATHER_SERVICE", "ERROR: It wasn't possible to retrieve the weather information", t);
                 Toast.makeText(getBaseContext(), "It wasn't possible to retrieve the weather information", Toast.LENGTH_LONG).show();
             }
         });
