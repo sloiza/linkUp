@@ -1,6 +1,7 @@
 package com.example.nicomoccagatta.weatherapp.Services;
 
 import com.example.nicomoccagatta.weatherapp.Globals;
+import com.example.nicomoccagatta.weatherapp.Models.ServerResponse;
 import com.example.nicomoccagatta.weatherapp.Models.Weather;
 
 import retrofit2.Call;
@@ -29,18 +30,18 @@ public class WeatherService {
                 .create(WeatherAPIService.class);
     }
 
-    public void getWeather(String cityId, final Callback<Weather> callback) {
-        api.getWeather(cityId).enqueue(new Callback<Weather>() {
+    public void getWeather(String cityId, final Callback<ServerResponse<Weather>> callback) {
+        api.getWeather(cityId).enqueue(new Callback<ServerResponse<Weather>>() {
             @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
-                Weather serverResponse = response.body();
+            public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>> response) {
+                Weather serverResponse = response.body().data;
                 if (serverResponse != null) {
-                    callback.onResponse(call, Response.success(serverResponse));
+                    callback.onResponse(call, Response.success(response.body()));
                 }
             }
 
             @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
+            public void onFailure(Call<ServerResponse<Weather>> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });

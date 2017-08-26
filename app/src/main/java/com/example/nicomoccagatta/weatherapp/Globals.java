@@ -6,7 +6,7 @@ package com.example.nicomoccagatta.weatherapp;
 
 public class Globals {
 
-    public static String serverAddress = "http://192.168.43.25:8000/";
+    public static String serverAddress = "http://192.168.1.43:8080/";
 
     public static String getServerAddress() {
         return serverAddress;

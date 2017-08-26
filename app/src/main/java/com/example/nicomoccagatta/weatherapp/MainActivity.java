@@ -1,6 +1,8 @@
 package com.example.nicomoccagatta.weatherapp;
 
+
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,8 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ProgressBar;
 
+import com.example.nicomoccagatta.weatherapp.Models.ServerResponse;
 import com.example.nicomoccagatta.weatherapp.Models.Weather;
 import com.example.nicomoccagatta.weatherapp.Services.WeatherService;
 
@@ -19,10 +24,14 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ProgressBar progressBar;
+    private Handler handler = new Handler();  // for the progress bar
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Buenos Aires, AR");
         setSupportActionBar(toolbar);
@@ -33,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                serviceTest();
+                reloadData();
             }
         });
+        reloadData();
     }
 
     @Override
@@ -61,20 +71,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void serviceTest() {
-        new WeatherService().getWeather("473537", new Callback<Weather>() {
+    public void reloadData() {
+        showProgressBar();
+        new WeatherService().getWeather("473537", new Callback<ServerResponse<Weather>>() {
             @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
+            public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>>response) {
                 if (response.body() != null) {
-                    Log.i("WATHER_SERVICE", response.body().getCity() + response.body().getWeatherCondition());
+                    Log.i("WATHER_SERVICE", response.body().data.getCity() + response.body().data.getWeatherCondition());
+                    TextView temp = (TextView) findViewById(R.id.text_temp);
+                    temp.setText(String.format("%s°C", response.body().data.getTemperature()));
+
+                    TextView press = (TextView) findViewById(R.id.text_press);
+                    press.setText(String.format("%s Hpa", response.body().data.getPressure()));
+
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                    toolbar.setTitle(String.format("%s, %s", response.body().data.getCity(), response.body().data.getCountry()));
                 }
+                hideProgressBar();
             }
 
             @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
+            public void onFailure(Call<ServerResponse<Weather>> call, Throwable t) {
                 Log.e("WATHER_SERVICE", "ERROR: It wasn't possible to retrieve the weather information", t);
                 Toast.makeText(getBaseContext(), "It wasn't possible to retrieve the weather information", Toast.LENGTH_LONG).show();
+                hideProgressBar();
             }
         });
+    }
+
+    private void showProgressBar(){
+        TextView temp = (TextView) findViewById(R.id.text_temp);
+        temp.setVisibility(View.INVISIBLE);
+
+        TextView press = (TextView) findViewById(R.id.text_press);
+        press.setVisibility(View.INVISIBLE);
+
+        handler.post(new Runnable() {
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void hideProgressBar(){
+        progressBar.setVisibility(View.INVISIBLE);
+        TextView temp = (TextView) findViewById(R.id.text_temp);
+        temp.setVisibility(View.VISIBLE);
+
+        TextView press = (TextView) findViewById(R.id.text_press);
+        press.setVisibility(View.VISIBLE);
     }
 }

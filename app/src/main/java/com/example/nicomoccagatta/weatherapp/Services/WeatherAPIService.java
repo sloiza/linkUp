@@ -1,5 +1,6 @@
 package com.example.nicomoccagatta.weatherapp.Services;
 
+import com.example.nicomoccagatta.weatherapp.Models.ServerResponse;
 import com.example.nicomoccagatta.weatherapp.Models.Weather;
 
 import retrofit2.Call;
@@ -13,5 +14,5 @@ import retrofit2.http.Path;
 public interface WeatherAPIService {
 
     @GET("/api/weather/{cityId}")
-    Call<Weather> getWeather(@Path("cityId") String cityId);
+    Call<ServerResponse<Weather>> getWeather(@Path("cityId") String cityId);
 }
