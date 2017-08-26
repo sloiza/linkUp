@@ -6,13 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.nicomoccagatta.weatherapp.MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        app:srcCompat="@mipmap/beach_sunny" />
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,35 +22,4 @@
 
     <include layout="@layout/content_main"
         android:id="@+id/include" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="@android:color/background_dark"
-        app:backgroundTint="@android:color/holo_blue_light"
-        app:srcCompat="@android:drawable/ic_popup_sync" />
-
-    <TextView
-        android:id="@+id/textTemperature"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:paddingTop="150dp"
-        android:text="25ºC"
-        android:textColor="@android:color/white"
-        android:textSize="100sp" />
-
-    <TextView
-        android:id="@+id/textPresion"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:paddingTop="300dp"
-        android:text="1030 Hpa"
-        android:textColor="@android:color/white"
-        android:textSize="70sp" />
-
 </android.support.design.widget.CoordinatorLayout>
