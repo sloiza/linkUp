@@ -6,4 +6,5 @@
     <string name="getting_data_string">Getting data, please wait...</string>
     <string name="title_city_list">Cities</string>
     <string name="title_city_detail">City Detail</string>
+    <string name="title_activity_city_list">CityList</string>
 </resources>

@@ -7,12 +7,10 @@ package com.example.nicomoccagatta.weatherapp.dummy;
 public class City {
     String n;
     Integer id;
-    String c;
 
-    public City(String n, Integer id, String c) {
+    public City(String n, Integer id) {
         this.n = n;
         this.id = id;
-        this.c = c;
     }
 
     public String getN() {
@@ -29,13 +27,5 @@ public class City {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getC() {
-        return c;
-    }
-
-    public void setC(String c) {
-        this.c = c;
     }
 }

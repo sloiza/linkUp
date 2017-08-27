@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Handler handler = new Handler();  // for the progress bar
 
-    private String currentCityId = "0";
+    private String currentCityId = "2172797";
+    private String currentCityName = "New York, US";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +37,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Buenos Aires, AR");
+        toolbar.setTitle(currentCityName);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                reloadData();
+                reloadData(currentCityId);
             }
         });
-        reloadData();
+        reloadData(currentCityId);
         Log.i("MAIN_ACTIVITY", "onCreate");
     }
 
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.select_city) {
-            Intent intent = new Intent(this, CityListActivity.class);
+            Intent intent = new Intent(this, CountryListActivity.class);
             startActivityForResult(intent, 27);
         }
 
@@ -86,17 +85,18 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String cityId = data.getStringExtra(CityListActivity.MESSAGE_CITY_ID);
                 Log.i("ID", cityId);
-                currentCityId = cityId;
+                reloadData(cityId);
             }
     }
 
 
-    public void reloadData() {
+    public void reloadData(final String cityId) {
         showProgressBar();
-        new WeatherService().getWeather(currentCityId, new Callback<ServerResponse<Weather>>() {
+        new WeatherService().getWeather(cityId, new Callback<ServerResponse<Weather>>() {
             @Override
             public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>>response) {
                 if (response.body() != null) {
+                    currentCityId = cityId;
                     Log.i("WATHER_SERVICE", response.body().data.getCity() + response.body().data.getWeatherCondition());
                     TextView temp = (TextView) findViewById(R.id.text_temp);
                     temp.setText(String.format("%s°C", response.body().data.getTemperature()));

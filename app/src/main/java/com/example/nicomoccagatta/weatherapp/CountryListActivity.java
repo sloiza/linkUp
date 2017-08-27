@@ -3,35 +3,35 @@ package com.example.nicomoccagatta.weatherapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.nicomoccagatta.weatherapp.dummy.City;
-import com.example.nicomoccagatta.weatherapp.dummy.CityListContent;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
+
+import com.example.nicomoccagatta.weatherapp.dummy.CountryListContent;
+import com.example.nicomoccagatta.weatherapp.dummy.Country;
+
 
 import java.util.List;
 
-public class CityListActivity extends AppCompatActivity {
+/**
+ * An activity representing a list of Cities.
+ */
+public class CountryListActivity extends AppCompatActivity {
 
-    public static final String MESSAGE_CITY_ID = "com.weatherapp.MESSAGE_CITY_ID";
-
-    private String countryId;
-
+    public static final String MESSAGE_COUNTRY_ID = "com.weatherapp.MESSAGE_COUNTRY_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_city_list);
+        setContentView(R.layout.activity_country_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -43,12 +43,21 @@ public class CityListActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        Intent intent = getIntent();
-        countryId = intent.getStringExtra(CountryListActivity.MESSAGE_COUNTRY_ID);
-
         View recyclerView = findViewById(R.id.city_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (resultCode == RESULT_OK) {
+            String cityId = data.getStringExtra(CityListActivity.MESSAGE_CITY_ID);
+            Log.i("ID", cityId);
+//            Intent intent = new Intent();
+//            intent.putExtra(CityListActivity.MESSAGE_CITY_ID, cityId);
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 
     @Override
@@ -69,41 +78,44 @@ public class CityListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        CityListContent.loadCities(getBaseContext(), countryId);
-        recyclerView.setAdapter(new CityListActivity.SimpleItemRecyclerViewAdapter(CityListContent.ITEMS));
+        CountryListContent.loadCountries(getBaseContext());
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(CountryListContent.ITEMS));
     }
 
     public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<CityListActivity.SimpleItemRecyclerViewAdapter.ViewHolder> {
+            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<City> mValues;
+        private final List<Country> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<City> items) {
+        public SimpleItemRecyclerViewAdapter(List<Country> items) {
             mValues = items;
         }
 
         @Override
-        public CityListActivity.SimpleItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.city_list_content, parent, false);
-            return new CityListActivity.SimpleItemRecyclerViewAdapter.ViewHolder(view);
+                    .inflate(R.layout.country_list_content, parent, false);
+            return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final CityListActivity.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            final SimpleItemRecyclerViewAdapter simpleItemRecyclerViewAdapter = this;
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
-            holder.mContentView.setText(mValues.get(position).getN());
+            holder.mIdView.setText(mValues.get(position).getCode());
+            holder.mContentView.setText(mValues.get(position).getName());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("ITEM", String.valueOf(holder.mItem.getId()));
-                    Intent intent = new Intent();
-                    String cityId = String.valueOf(holder.mItem.getId());
-                    intent.putExtra(MESSAGE_CITY_ID, cityId);
-                    setResult(RESULT_OK, intent);
-                    finish();
+//                        intent.putExtra(CityDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    Log.i("ITEM", holder.mItem.getCode());
+                    Intent intent = new Intent(getBaseContext(), CityListActivity.class);
+                    String countryId = holder.mItem.getCode();
+                    intent.putExtra(MESSAGE_COUNTRY_ID, countryId);
+//                    setResult(RESULT_OK, intent);
+//                    finish();
+                    startActivityForResult(intent, 28);
                 }
             });
         }
@@ -117,13 +129,13 @@ public class CityListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public City mItem;
+            public Country mItem;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.city_id);
-                mContentView = (TextView) view.findViewById(R.id.city_content);
+                mIdView = (TextView) view.findViewById(R.id.id);
+                mContentView = (TextView) view.findViewById(R.id.content);
             }
 
             @Override
