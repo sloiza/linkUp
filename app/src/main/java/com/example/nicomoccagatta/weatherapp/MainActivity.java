@@ -1,6 +1,7 @@
 package com.example.nicomoccagatta.weatherapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Handler handler = new Handler();  // for the progress bar
 
+    private String currentCityId = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         reloadData();
+        Log.i("MAIN_ACTIVITY", "onCreate");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -63,17 +73,27 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.select_city) {
+            Intent intent = new Intent(this, CityListActivity.class);
+            startActivityForResult(intent, 27);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+            if (resultCode == RESULT_OK) {
+                String cityId = data.getStringExtra(CityListActivity.MESSAGE_CITY_ID);
+                Log.i("ID", cityId);
+                currentCityId = cityId;
+            }
+    }
+
 
     public void reloadData() {
         showProgressBar();
-        new WeatherService().getWeather("473537", new Callback<ServerResponse<Weather>>() {
+        new WeatherService().getWeather(currentCityId, new Callback<ServerResponse<Weather>>() {
             @Override
             public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>>response) {
                 if (response.body() != null) {
