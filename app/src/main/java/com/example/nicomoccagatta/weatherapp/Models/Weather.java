@@ -1,5 +1,7 @@
 package com.example.nicomoccagatta.weatherapp.Models;
 
+import android.content.Intent;
+
 /**
  * Created by alejandro on 8/26/17.
  */
@@ -12,14 +14,16 @@ public class Weather {
     private String pressure;
     private String country;
     private Boolean isNight;
+    private Integer imageCond;
 
-    public Weather(String city, String weatherCondition, String temperature, String pressure, String country, Boolean isNight) {
+    public Weather(String city, String weatherCondition, String temperature, String pressure, String country, Boolean isNight, Integer imageCond) {
         this.city = city;
         this.weatherCondition = weatherCondition;
         this.temperature = temperature;
         this.pressure = pressure;
         this.country = country;
         this.isNight = isNight;
+        this.imageCond = imageCond;
     }
 
     public String getCity() {
@@ -68,5 +72,13 @@ public class Weather {
 
     public void setNight(Boolean night) {
         isNight = night;
+    }
+
+    public Integer getImageCond() {
+        return imageCond;
+    }
+
+    public void setImageCond(Integer imageCond) {
+        this.imageCond = imageCond;
     }
 }
