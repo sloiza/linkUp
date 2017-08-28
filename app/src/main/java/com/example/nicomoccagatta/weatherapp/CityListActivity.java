@@ -113,15 +113,16 @@ public class CityListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final CityListActivity.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
+            holder.mIdView.setText("");
             holder.mContentView.setText(mValues.get(position).getN());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.i("ITEM", String.valueOf(holder.mItem.getId()));
+
                     Intent intent = new Intent();
-                    String cityId = String.valueOf(holder.mItem.getId());
+                    String cityId = String.valueOf(mValues.get(holder.getAdapterPosition()).getId());
                     intent.putExtra(MESSAGE_CITY_ID, cityId);
                     setResult(RESULT_OK, intent);
                     finish();

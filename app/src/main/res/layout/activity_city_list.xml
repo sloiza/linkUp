@@ -27,7 +27,9 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/city_list" />
+        <include layout="@layout/city_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <ProgressBar
             android:id="@+id/progressBar_cyclic"
