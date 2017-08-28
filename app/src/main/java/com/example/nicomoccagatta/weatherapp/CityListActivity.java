@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 import com.example.nicomoccagatta.weatherapp.dummy.City;
 import com.example.nicomoccagatta.weatherapp.dummy.CityListContent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CityListActivity extends AppCompatActivity {
@@ -29,6 +29,7 @@ public class CityListActivity extends AppCompatActivity {
 
 
     private ProgressBar progressBar;
+    private SearchView searchView;
     private Handler handler = new Handler();  // for the progress bar
 
     private String countryId;
@@ -39,6 +40,7 @@ public class CityListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_city_list);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
+        searchView = (SearchView) findViewById(R.id.search_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -79,7 +81,23 @@ public class CityListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         CityListContent.loadCities(getBaseContext(), countryId);
-        recyclerView.setAdapter(new CityListActivity.SimpleItemRecyclerViewAdapter(CityListContent.ITEMS));
+        final CityListActivity.SimpleItemRecyclerViewAdapter adapter = new CityListActivity.SimpleItemRecyclerViewAdapter(CityListContent.ITEMS);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return true;
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
     }
 
     private void showProgressBar(){
@@ -98,9 +116,11 @@ public class CityListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<CityListActivity.SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<City> mValues;
+        private List<City> itemsCopy = new ArrayList<>();
 
         public SimpleItemRecyclerViewAdapter(List<City> items) {
             mValues = items;
+            itemsCopy.addAll(items);
         }
 
         @Override
@@ -133,6 +153,21 @@ public class CityListActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return mValues.size();
+        }
+
+        public void filter(String text) {
+            mValues.clear();
+            if(text.isEmpty()){
+                mValues.addAll(itemsCopy);
+            } else{
+                text = text.toLowerCase();
+                for(City item: itemsCopy){
+                    if(item.getN().toLowerCase().contains(text)){
+                        mValues.add(item);
+                    }
+                }
+            }
+            notifyDataSetChanged();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
