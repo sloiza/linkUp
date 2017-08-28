@@ -7,4 +7,5 @@
     <string name="title_city_list">Cities</string>
     <string name="title_city_detail">City Detail</string>
     <string name="title_activity_city_list">CityList</string>
+    <string name="city_id_default">5128581</string>
 </resources>

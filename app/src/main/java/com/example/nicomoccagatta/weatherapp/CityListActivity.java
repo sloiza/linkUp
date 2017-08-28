@@ -2,6 +2,7 @@ package com.example.nicomoccagatta.weatherapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.nicomoccagatta.weatherapp.dummy.City;
@@ -25,14 +27,18 @@ public class CityListActivity extends AppCompatActivity {
 
     public static final String MESSAGE_CITY_ID = "com.weatherapp.MESSAGE_CITY_ID";
 
-    private String countryId;
 
+    private ProgressBar progressBar;
+    private Handler handler = new Handler();  // for the progress bar
+
+    private String countryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_list);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -48,7 +54,10 @@ public class CityListActivity extends AppCompatActivity {
 
         View recyclerView = findViewById(R.id.city_list);
         assert recyclerView != null;
+
+//        showProgressBar();
         setupRecyclerView((RecyclerView) recyclerView);
+//        hideProgressBar();
     }
 
     @Override
@@ -71,6 +80,18 @@ public class CityListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         CityListContent.loadCities(getBaseContext(), countryId);
         recyclerView.setAdapter(new CityListActivity.SimpleItemRecyclerViewAdapter(CityListContent.ITEMS));
+    }
+
+    private void showProgressBar(){
+        handler.post(new Runnable() {
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void hideProgressBar(){
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     public class SimpleItemRecyclerViewAdapter

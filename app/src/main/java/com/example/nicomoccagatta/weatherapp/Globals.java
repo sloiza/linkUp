@@ -6,7 +6,8 @@ package com.example.nicomoccagatta.weatherapp;
 
 public class Globals {
 
-    public static String serverAddress = "http://192.168.0.125:8080/";
+//    public static String serverAddress = "http://192.168.0.125:8080";
+    private static String serverAddress = "https://weather-server-tdp.herokuapp.com";
 
     public static String getServerAddress() {
         return serverAddress;

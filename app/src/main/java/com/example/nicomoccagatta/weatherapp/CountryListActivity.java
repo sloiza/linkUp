@@ -53,9 +53,7 @@ public class CountryListActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             String cityId = data.getStringExtra(CityListActivity.MESSAGE_CITY_ID);
             Log.i("ID", cityId);
-//            Intent intent = new Intent();
-//            intent.putExtra(CityListActivity.MESSAGE_CITY_ID, cityId);
-            setResult(RESULT_OK, data);
+            setResult(RESULT_OK, data);  // passing data to stacked activity
             finish();
         }
     }
@@ -64,13 +62,6 @@ public class CountryListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
             finish();  // back to stacked activity -- onResume
             return true;
         }
@@ -82,12 +73,12 @@ public class CountryListActivity extends AppCompatActivity {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(CountryListContent.ITEMS));
     }
 
-    public class SimpleItemRecyclerViewAdapter
+    class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<Country> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<Country> items) {
+        SimpleItemRecyclerViewAdapter(List<Country> items) {
             mValues = items;
         }
 
@@ -100,7 +91,6 @@ public class CountryListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            final SimpleItemRecyclerViewAdapter simpleItemRecyclerViewAdapter = this;
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getCode());
             holder.mContentView.setText(mValues.get(position).getName());
@@ -108,13 +98,10 @@ public class CountryListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                        intent.putExtra(CityDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                     Log.i("ITEM", holder.mItem.getCode());
                     Intent intent = new Intent(getBaseContext(), CityListActivity.class);
                     String countryId = holder.mItem.getCode();
                     intent.putExtra(MESSAGE_COUNTRY_ID, countryId);
-//                    setResult(RESULT_OK, intent);
-//                    finish();
                     startActivityForResult(intent, 28);
                 }
             });
@@ -125,13 +112,13 @@ public class CountryListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
-            public Country mItem;
+        class ViewHolder extends RecyclerView.ViewHolder {
+            final View mView;
+            final TextView mIdView;
+            final TextView mContentView;
+            Country mItem;
 
-            public ViewHolder(View view) {
+            ViewHolder(View view) {
                 super(view);
                 mView = view;
                 mIdView = (TextView) view.findViewById(R.id.id);

@@ -1,7 +1,9 @@
 package com.example.nicomoccagatta.weatherapp;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -25,15 +27,21 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String CITY_ID_STATE_KEY = "CITY_ID_STATE_KEY";
+    public static final String CITY_NAME_STATE_KEY = "CITY_NAME_STATE_KEY";
+
     private ProgressBar progressBar;
     private Handler handler = new Handler();  // for the progress bar
 
-    private String currentCityId = "2172797";
-    private String currentCityName = "New York, US";
+    private String currentCityId;
+    private String currentCityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loadLastState();
+
         setContentView(R.layout.activity_main);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -51,10 +59,27 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MAIN_ACTIVITY", "onCreate");
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void loadLastState() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String defaultCityIdValue = getResources().getString(R.string.city_id_default);
+        currentCityId = sharedPref.getString(CITY_ID_STATE_KEY, defaultCityIdValue);
 
+        String defaultCityNameValue = "No Data";
+        currentCityName = sharedPref.getString(CITY_NAME_STATE_KEY, defaultCityNameValue);
+    }
+
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i("STATE", "SAVING STATE");
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(CITY_ID_STATE_KEY, currentCityId);
+        editor.putString(CITY_NAME_STATE_KEY, currentCityName);
+        editor.apply();
     }
 
     @Override
@@ -104,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     TextView press = (TextView) findViewById(R.id.text_press);
                     press.setText(String.format("%s Hpa", response.body().data.getPressure()));
 
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                    toolbar.setTitle(String.format("%s, %s", response.body().data.getCity(), response.body().data.getCountry()));
+                    currentCityName = String.format("%s, %s", response.body().data.getCity(), response.body().data.getCountry());
                 }
                 hideProgressBar();
             }
@@ -126,6 +150,9 @@ public class MainActivity extends AppCompatActivity {
         TextView press = (TextView) findViewById(R.id.text_press);
         press.setVisibility(View.INVISIBLE);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Loading...");
+
         handler.post(new Runnable() {
             public void run() {
                 progressBar.setVisibility(View.VISIBLE);
@@ -135,6 +162,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void hideProgressBar(){
         progressBar.setVisibility(View.INVISIBLE);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(currentCityName);
+
         TextView temp = (TextView) findViewById(R.id.text_temp);
         temp.setVisibility(View.VISIBLE);
 

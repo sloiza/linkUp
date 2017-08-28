@@ -4,6 +4,9 @@ import com.example.nicomoccagatta.weatherapp.Globals;
 import com.example.nicomoccagatta.weatherapp.Models.ServerResponse;
 import com.example.nicomoccagatta.weatherapp.Models.Weather;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,8 +26,14 @@ public class WeatherService {
     }
 
     private WeatherAPIService getApi(){
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
         return new Retrofit.Builder()
                 .baseUrl(Globals.getServerAddress())
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(WeatherAPIService.class);
