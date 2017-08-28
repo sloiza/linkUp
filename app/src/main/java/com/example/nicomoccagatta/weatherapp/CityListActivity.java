@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.nicomoccagatta.weatherapp.dummy.City;
@@ -100,7 +100,7 @@ public class CityListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         handler.post(new Runnable() {
             public void run() {
                 progressBar.setVisibility(View.VISIBLE);
@@ -108,7 +108,7 @@ public class CityListActivity extends AppCompatActivity {
         });
     }
 
-    private void hideProgressBar(){
+    private void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
@@ -157,12 +157,12 @@ public class CityListActivity extends AppCompatActivity {
 
         public void filter(String text) {
             mValues.clear();
-            if(text.isEmpty()){
+            if (text.isEmpty()) {
                 mValues.addAll(itemsCopy);
-            } else{
+            } else {
                 text = text.toLowerCase();
-                for(City item: itemsCopy){
-                    if(item.getN().toLowerCase().contains(text)){
+                for (City item : itemsCopy) {
+                    if (item.getN().toLowerCase().contains(text)) {
                         mValues.add(item);
                     }
                 }

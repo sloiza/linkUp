@@ -12,13 +12,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ProgressBar;
 
 import com.example.nicomoccagatta.weatherapp.Models.ServerResponse;
 import com.example.nicomoccagatta.weatherapp.Models.Weather;
@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
-            if (resultCode == RESULT_OK) {
-                String cityId = data.getStringExtra(CityListActivity.MESSAGE_CITY_ID);
-                Log.i("ID", cityId);
-                reloadData(cityId);
-            }
+        if (resultCode == RESULT_OK) {
+            String cityId = data.getStringExtra(CityListActivity.MESSAGE_CITY_ID);
+            Log.i("ID", cityId);
+            reloadData(cityId);
+        }
     }
 
 
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         showProgressBar();
         new WeatherService().getWeather(cityId, new Callback<ServerResponse<Weather>>() {
             @Override
-            public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>>response) {
+            public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>> response) {
                 if (response.body() != null) {
                     currentCityId = cityId;
                     Log.i("WEATHER_SERVICE", response.body().data.getCity() + response.body().data.getWeatherCondition());
@@ -150,40 +150,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private Drawable getImage(final Integer imageID){
+    private Drawable getImage(final Integer imageID) {
         Drawable drawable;
         switch (imageID) {
-            case 1: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a1);
+            case 1:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a1);
                 break;
-            case 2: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a2);
+            case 2:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a2);
                 break;
-            case 3: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a3);
+            case 3:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a3);
                 break;
-            case 4: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a4);
+            case 4:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a4);
                 break;
-            case 5: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a5);
+            case 5:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a5);
                 break;
-            case 6: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a6);
+            case 6:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a6);
                 break;
-            case 7: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a7);
+            case 7:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a7);
                 break;
-            case 8: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a8);
+            case 8:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a8);
                 break;
-            case 9: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a9);
+            case 9:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a9);
                 break;
-            case 10: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a10);
+            case 10:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a10);
                 break;
-            case 11: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a11);
+            case 11:
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a11);
                 break;
-            default: Log.e("IMAGE ERROR", "ERROR GETTING IMAGE ID");
-                drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a1);
+            default:
+                Log.e("IMAGE ERROR", "ERROR GETTING IMAGE ID");
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a1);
                 break;
 
         }
         return drawable;
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         TextView temp = (TextView) findViewById(R.id.text_temp);
         temp.setVisibility(View.INVISIBLE);
 
@@ -200,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void hideProgressBar(){
+    private void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

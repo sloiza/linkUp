@@ -27,7 +27,7 @@ public class WeatherService {
         this.api = getApi();
     }
 
-    private WeatherAPIService getApi(){
+    private WeatherAPIService getApi() {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
@@ -54,7 +54,7 @@ public class WeatherService {
 
             @Override
             public void onFailure(Call<ServerResponse<Weather>> call, Throwable t) {
-                callback.onFailure(call,t);
+                callback.onFailure(call, t);
             }
         });
     }

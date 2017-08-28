@@ -3,21 +3,19 @@ package com.example.nicomoccagatta.weatherapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import android.support.v7.app.ActionBar;
-import android.view.MenuItem;
-
-import com.example.nicomoccagatta.weatherapp.dummy.CountryListContent;
 import com.example.nicomoccagatta.weatherapp.dummy.Country;
-
+import com.example.nicomoccagatta.weatherapp.dummy.CountryListContent;
 
 import java.util.List;
 

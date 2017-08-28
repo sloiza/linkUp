@@ -1,7 +1,5 @@
 package com.example.nicomoccagatta.weatherapp.Models;
 
-import android.content.Intent;
-
 /**
  * Created by alejandro on 8/26/17.
  */

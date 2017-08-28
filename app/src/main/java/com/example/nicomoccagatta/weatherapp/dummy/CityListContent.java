@@ -3,7 +3,6 @@ package com.example.nicomoccagatta.weatherapp.dummy;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.nicomoccagatta.weatherapp.R;
 import com.example.nicomoccagatta.weatherapp.util.JSONResourceReader;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ public class CityListContent {
      * A map of sample (dummy) items, by ID.
      */
 //    public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
-
     public static void loadCities(Context context, String countryID) {
         ITEMS.clear();  // removes all elements from arraylist
 
@@ -35,7 +33,7 @@ public class CityListContent {
 
         City[] cities = reader.constructUsingGson(City[].class);
 
-        for (City c: cities) {
+        for (City c : cities) {
             ITEMS.add(c);
         }
 

@@ -4,13 +4,17 @@ package com.example.nicomoccagatta.weatherapp.util;
  * Created by alejandro on 8/27/17.
  */
 
-import java.io.*;
-
 import android.content.res.Resources;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.io.Writer;
 
 
 /**
@@ -21,9 +25,9 @@ public class JSONResourceReader {
 
     // === [ Private Data Members ] ============================================
 
+    private static final String LOGTAG = JSONResourceReader.class.getSimpleName();
     // Our JSON, in string form.
     private String jsonString;
-    private static final String LOGTAG = JSONResourceReader.class.getSimpleName();
 
     // === [ Public API ] ======================================================
 
@@ -57,7 +61,7 @@ public class JSONResourceReader {
 
             jsonString = writer.toString();
         } catch (Resources.NotFoundException e) {
-            Log.e("JSON RESOURCE READER","Resource not found");
+            Log.e("JSON RESOURCE READER", "Resource not found");
         }
     }
 
