@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a1);
                 break;
             case 2:
-                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a2_);
+                drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a2);
                 break;
             case 3:
                 drawable = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.a3);
