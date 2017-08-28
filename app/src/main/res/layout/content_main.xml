@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_main">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageWeather"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
@@ -59,7 +59,7 @@
         app:backgroundTint="@android:color/holo_blue_dark"
         app:elevation="9dp"
         app:fabSize="normal"
-        app:layout_anchor="@+id/imageView"
+        app:layout_anchor="@+id/imageWeather"
         app:layout_anchorGravity="bottom|right"
         app:srcCompat="@android:drawable/ic_popup_sync" />
 

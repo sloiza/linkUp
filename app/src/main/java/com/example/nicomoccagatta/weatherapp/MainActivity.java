@@ -4,15 +4,18 @@ package com.example.nicomoccagatta.weatherapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ProgressBar;
@@ -123,11 +126,15 @@ public class MainActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     currentCityId = cityId;
                     Log.i("WEATHER_SERVICE", response.body().data.getCity() + response.body().data.getWeatherCondition());
+
                     TextView temp = (TextView) findViewById(R.id.text_temp);
                     temp.setText(String.format("%s°C", response.body().data.getTemperature()));
 
                     TextView press = (TextView) findViewById(R.id.text_press);
                     press.setText(String.format("%s Hpa", response.body().data.getPressure()));
+
+                    ImageView image = (ImageView) findViewById(R.id.imageWeather);
+                    image.setImageDrawable(getImage(response.body().data.getImageCond()));
 
                     currentCityName = String.format("%s, %s", response.body().data.getCity(), response.body().data.getCountry());
                 }
@@ -141,6 +148,39 @@ public class MainActivity extends AppCompatActivity {
                 hideProgressBar();
             }
         });
+    }
+
+    private Drawable getImage(final Integer imageID){
+        Drawable drawable;
+        switch (imageID) {
+            case 1: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a1);
+                break;
+            case 2: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a2);
+                break;
+            case 3: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a3);
+                break;
+            case 4: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a4);
+                break;
+            case 5: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a5);
+                break;
+            case 6: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a6);
+                break;
+            case 7: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a7);
+                break;
+            case 8: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a8);
+                break;
+            case 9: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a9);
+                break;
+            case 10: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a10);
+                break;
+            case 11: drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a11);
+                break;
+            default: Log.e("IMAGE ERROR", "ERROR GETTING IMAGE ID");
+                drawable = ContextCompat.getDrawable(getApplicationContext(),R.mipmap.a1);
+                break;
+
+        }
+        return drawable;
     }
 
     private void showProgressBar(){
