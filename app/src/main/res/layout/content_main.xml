@@ -16,15 +16,15 @@
         app:srcCompat="@mipmap/beach_sunny" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:paddingTop="64dp"
-        android:id="@+id/linearLayout">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/text_temp"
@@ -72,8 +72,8 @@
         android:layout_gravity="center_vertical|center_horizontal"
         android:minHeight="50dp"
         android:minWidth="50dp"
+        android:visibility="invisible"
         app:layout_anchor="@+id/linearLayout"
-        app:layout_anchorGravity="center_horizontal|center_vertical"
-        android:visibility="invisible"/>
+        app:layout_anchorGravity="center_horizontal|center_vertical" />
 
 </android.support.design.widget.CoordinatorLayout>
