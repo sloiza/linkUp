@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>>response) {
                 if (response.body() != null) {
                     currentCityId = cityId;
-                    Log.i("WATHER_SERVICE", response.body().data.getCity() + response.body().data.getWeatherCondition());
+                    Log.i("WEATHER_SERVICE", response.body().data.getCity() + response.body().data.getWeatherCondition());
                     TextView temp = (TextView) findViewById(R.id.text_temp);
                     temp.setText(String.format("%s°C", response.body().data.getTemperature()));
 
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ServerResponse<Weather>> call, Throwable t) {
-                Log.e("WATHER_SERVICE", "ERROR: It wasn't possible to retrieve the weather information", t);
+                Log.e("WEATHER_SERVICE", "ERROR: It wasn't possible to retrieve the weather information", t);
                 Toast.makeText(getBaseContext(), "It wasn't possible to retrieve the weather information", Toast.LENGTH_LONG).show();
                 hideProgressBar();
             }
