@@ -1,5 +1,7 @@
 package com.example.nicomoccagatta.weatherapp.Services;
 
+import android.util.Log;
+
 import com.example.nicomoccagatta.weatherapp.Globals;
 import com.example.nicomoccagatta.weatherapp.Models.ServerResponse;
 import com.example.nicomoccagatta.weatherapp.Models.Weather;
@@ -45,6 +47,7 @@ public class WeatherService {
             public void onResponse(Call<ServerResponse<Weather>> call, Response<ServerResponse<Weather>> response) {
                 Weather serverResponse = response.body().data;
                 if (serverResponse != null) {
+                    Log.i("SERVER RESPONSE", serverResponse.toString());
                     callback.onResponse(call, Response.success(response.body()));
                 }
             }

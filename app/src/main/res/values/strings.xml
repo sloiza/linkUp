@@ -9,4 +9,5 @@
     <string name="title_activity_city_list">Cities</string>
     <string name="city_id_default">5128581</string>
     <string name="title_countries_list">Countries</string>
+    <string name="choose_another_city">Choose another City</string>
 </resources>

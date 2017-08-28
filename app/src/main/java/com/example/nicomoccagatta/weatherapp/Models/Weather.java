@@ -81,4 +81,17 @@ public class Weather {
     public void setImageCond(Integer imageCond) {
         this.imageCond = imageCond;
     }
+
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "city='" + city + '\'' +
+                ", weatherCondition='" + weatherCondition + '\'' +
+                ", temperature='" + temperature + '\'' +
+                ", pressure='" + pressure + '\'' +
+                ", country='" + country + '\'' +
+                ", isNight=" + isNight +
+                ", imageCond=" + imageCond +
+                '}';
+    }
 }
